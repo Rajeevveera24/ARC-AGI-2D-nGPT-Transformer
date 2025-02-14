@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "arc-agi-2d-ngpt-transformer"
+version = "0.1.0"
+description = ""
+authors = ["Rajeev Veeraraghavan <veera@cmu.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^2.2.3"
+torch = "^2.6.0"
+pandas = "^2.2.3"
+scipy = "^1.15.1"
+tqdm = "^4.67.1"
+einops = "^0.8.1"
+rotary-embedding-torch = "^0.8.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
