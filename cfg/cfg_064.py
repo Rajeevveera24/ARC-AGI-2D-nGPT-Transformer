@@ -11,7 +11,8 @@ cfg.data_path = Path("../re-arc/%s/tasks" % cfg.fname)
 cfg.input_path = Path("../input/arc-prize-2024/")
 cfg.save_path = Path("../checkpoints")
 cfg.checkpoint_path = ""
-cfg.pretrained_path = "../checkpoints/ngc/exp_54.pt"
+# cfg.pretrained_path = "../checkpoints/ngc/exp_54.pt"
+cfg.pretrained_path = None
 
 # training
 
@@ -58,8 +59,8 @@ cfg.workers = 1
 
 # task
 
-cfg.train_model = False
-cfg.tune_model = True
+cfg.train_model = True
+cfg.tune_model = False
 cfg.predict_model = False
 cfg.logger_file = True
 cfg.verbose = 0

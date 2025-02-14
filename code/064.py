@@ -1781,15 +1781,16 @@ def predict_model(cfg, valid_dataset):
 
 def set_save_path(cfg):
     fname_path = cfg.save_path / cfg.fname
-    if not fname_path.exists():
-        fname_path.mkdir()
+    # print("Here!!")
+    # if not fname_path.exists():
+    #     fname_path.mkdir()
 
     exp = 0
     while (fname_path / ("exp_%d" % exp)).exists():
         exp += 1
     cfg.exp = exp
     cfg.checkpoint_path = fname_path / ("exp_%d" % exp)
-    cfg.checkpoint_path.mkdir()
+    os.makedirs(cfg.checkpoint_path, exist_ok=True)
 
 
 def get_exp(cfg):
