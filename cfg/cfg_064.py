@@ -1,23 +1,23 @@
-from types import SimpleNamespace
 from pathlib import Path
+from types import SimpleNamespace
 
 cfg = SimpleNamespace(**{})
 
 cfg.gpu = "0"
 cfg.seed = 0
-cfg.fname = 'gen10000'
+cfg.fname = "gen100"
 
-cfg.data_path = Path("../re-arc/%s/tasks" % cfg.fname )
+cfg.data_path = Path("../re-arc/%s/tasks" % cfg.fname)
 cfg.input_path = Path("../input/arc-prize-2024/")
-cfg.save_path = Path('../checkpoints')
+cfg.save_path = Path("../checkpoints")
 cfg.checkpoint_path = ""
-cfg.pretrained_path = '../checkpoints/ngc/exp_54.pt'
+cfg.pretrained_path = "../checkpoints/ngc/exp_54.pt"
 
 # training
 
 # scale
-size = 'large' # 'gpt2'
-if size == 'small':
+size = "large"  # 'gpt2'
+if size == "small":
     cfg.sample_batch_size = 1
     cfg.train_batch_size = 64
     cfg.valid_batch_size = 128
@@ -25,8 +25,8 @@ if size == 'small':
     cfg.hidden_dim = 512
     cfg.heads = 8
     cfg.depth = 6
-    cfg.lr =  1e-5
-elif size == 'large':
+    cfg.lr = 1e-5
+elif size == "large":
     cfg.sample_batch_size = 1
     cfg.train_batch_size = 32
     cfg.valid_batch_size = 64
@@ -34,8 +34,8 @@ elif size == 'large':
     cfg.hidden_dim = 512
     cfg.heads = 8
     cfg.depth = 12
-    cfg.lr =  5e-6
-elif size == 'gpt2':
+    cfg.lr = 5e-6
+elif size == "gpt2":
     cfg.sample_batch_size = 1
     cfg.train_batch_size = 32
     cfg.valid_batch_size = 64
@@ -43,8 +43,8 @@ elif size == 'gpt2':
     cfg.hidden_dim = 768
     cfg.heads = 12
     cfg.depth = 12
-    cfg.lr =  5e-6
-    
+    cfg.lr = 5e-6
+
 # training
 cfg.fp16 = True
 cfg.accumulate = 1
@@ -75,7 +75,7 @@ cfg.max_size = 30
 cfg.use_embed = False
 cfg.tied_embedding = True
 cfg.dim_heads = cfg.hidden_dim // cfg.heads
-cfg.dropout = 0.
+cfg.dropout = 0.0
 cfg.repeat_layers = False
 cfg.norm_input = False
 cfg.manual_norm_weights = False
@@ -99,11 +99,10 @@ cfg.fold = -1
 cfg.opt_beta1 = 0.9
 cfg.opt_beta2 = 0.999
 cfg.opt_eps = 1e-8
-cfg.optimizer = 'AdamW'
+cfg.optimizer = "AdamW"
 
 # scheduler
 
-cfg.scheduler = 'cosine'
+cfg.scheduler = "cosine"
 cfg.pct_start = 0.01
 cfg.final_div_factor = 1e-4
-
