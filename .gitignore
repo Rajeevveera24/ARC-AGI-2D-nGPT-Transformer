@@ -3,3 +3,4 @@
 # End Generation Here
 
 .env
+checkpoints*

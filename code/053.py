@@ -5,6 +5,8 @@ import time
 import random
 import string
 import datetime
+import pdb
+import json
 
 # For data manipulation
 import numpy as np
@@ -142,10 +144,17 @@ def load_data(cfg):
     evaluation_challenges = load_corpus(cfg.input_path / 'arc-agi_evaluation_challenges.json', 'evaluation')
     evaluation_solutions = load_solutions(cfg.input_path / 'arc-agi_evaluation_solutions.json')
     
-    with open(cfg.input_path / 'fixed_size.pkl', 'rb') as file:
-        fixed_size_keys = pkl.load(file)
+    # with open(cfg.input_path / 'fixed_size.pkl', 'rb') as file:
+    #     fixed_size_keys = pkl.load(file)
 
-    fixed_size_train_keys = set(fixed_size_keys) & set(training_challenges.keys())
+    fized_size_keys = ['00d62c1b', '025d127b', '045e512c', '05269061', '05f2a901', '06df4c85', '08ed6ac7', '09629e4f', '0962bcdd', '0a938d79', '0ca9ddb6', '0d3d703e', '0dfd9992', '0e206a2e', '11852cab', '150deff5', '178fcbfb', '1a07d186', '1b60fb0c', '1bfc4729', '1caeab9d', '1e0a9b12', '1e32b0e9'] 
+    
+    # '1f0c79e5', '1f642eb9', '1f876c06', '2204b7a8', '22168020', '22233c11', '2281f1f4', '228f6490', '22eb0ac0', '23581191', '253bf280', '25d487eb', '25d8a9c8', '25ff71a9', '264363fd', '272f95fa', '28e73c20', '29623171', '29c11459', '29ec7d0e', '2bcee788', '2bee17df', '2c608aff', '2dd70a9a', '31aa019c', '321b1fc6', '32597951', '3345333e', '3618c87e', '3631a71a', '363442ee', '36d67576', '36fdfd69', '3906de3d', '39e1d7f9', '3aa6fb7a', '3ac3eb23', '3bd67248', '3bdb4ada', '3befdf3e', '3c9b0459', '3e980e27', '3eda0437', '40853293', '4093f84a', '41e4d17e', '4258a5f9', '42a50994', '4347f46a', '444801d8', '447fd412', '44d8ac46', '4612dd53', '484b58aa', '4938f0c2', '496994bd', '4c5c2cf0', '50846271', '508bd3b6', '50cb2852', '5168d44c', '543a7ed5', '54d82841', '54d9e175', '5521c0d9', '5582e5ca', '56dc2b01', '56ff96f3', '57aa92db', '5c0a986e', '5c2c9af4', '60b61512', '6150a2bd', '623ea044', '63613498', '6455b5f5', '67385a82', '673ef223', '67a3c6ac', '67a423a3', '6855a6e4', '68b16354', '694f12f3', '6a1e5592', '6aa20dc0', '6c434453', '6cdd2623', '6cf79266', '6d0160f0', '6d58a25d', '6d75e8bb', '6e02f1e3', '6e19193c', '6e82a1ae', '6f8cd79b', '72322fa7', '73251a56', '7447852a', '74dd1130', '760b3cac', '776ffc46', '794b24be', '7b6016b9', '7ddcd7ec', '7df24a62', '7e0986d6', '7f4411dc', '810b9b61', '82819916', '83302e8f', '834ec97d', '8403a5d5', '855e0971', '85c4e7cd', '868de0fa', '88a10436', '890034e9', '8d510a79', '8e5a5113', '8eb1be9a', '8f2ea7aa', '90f3ed37', '913fb3ed', '91714a58', '928ad970', '93b581b8', '941d9a10', '952a094c', '9565186b', '95990924', '97999447', '98cf29f8', '99fa7670', '9d9215db', '9dfd6313', '9edfc990', 'a1570a43', 'a2fd1cf0', 'a3df8b1e', 'a48eeaf7', 'a5313dff', 'a5f85a15', 'a61f2674', 'a64e4611', 'a65b410d', 'a699fb00', 'a78176bb', 'a79310a0', 'a85d4709', 'a8d7556c', 'a9f96cdd', 'aabf363d', 'aba27056', 'ae3edfdc', 'aedd82e4', 'af902bf9', 'b1948b0a', 'b230c067', 'b27ca6d3', 'b2862040', 'b527c5c6', 'b548a754', 'b60334d2', 'b6afb2da', 'b7249182', 'b775ac94', 'b782dc8a', 'b8825c91', 'b8cdaf2b', 'ba26e723', 'ba97ae07', 'bb43febb', 'bd4472b8', 'bda2d7a6', 'bdad9b1f', 'beb8660c', 'c0f76784', 'c1d99e64', 'c3f564a4', 'c444b776', 'c8f0f002', 'c9f8e694', 'caa06a1f', 'cbded52d', 'ce22a75a', 'ce9e57f2', 'd037b0a7', 'd06dbe63', 'd07ae81c', 'd22278a0', 'd23f8c26', 'd2abd087', 'd364b489', 'd406998b', 'd43fd935', 'd4a91cb9', 'd4f3cd78', 'd511f180', 'd5d6de2d', 'd687bc17', 'd6ad076f', 'd89b689b', 'd8c310e9', 'd90796e8', 'd9f24cd1', 'db3e9e38', 'db93a21d', 'dbc1a6ce', 'dc1df850', 'dc433765', 'ddf7fa4f', 'ded97339', 'e179c5f4', 'e21d9049', 'e26a3af2', 'e40b9e2f', 'e48d4e1a', 'e5062a87', 'e509e548', 'e73095fd', 'e76a88a6', 'e8593010', 'e8dc4411', 'e9614598', 'e9afcf9a', 'ea32f347', 'ea786f4a', 'ec883f72', 'ecdecbb3', 'ed36ccf7', 'ef135b50', 'f15e1fac', 'f1cefba8', 'f25ffba3', 'f35d900a', 'f76d97a5', 'f8a8fe49', 'f8c80d96', 'fcc82909']
+
+    fixed_size_train_keys = set(fized_size_keys) & set(training_challenges.keys())
+    pdb.set_trace()
+    print(len(fixed_size_train_keys))
+    # fixed_size_train_keys = set(training_challenges.keys())
     keys = []   
     for key in tqdm(fixed_size_train_keys):
         data_key = load_generate_tasks(key, cfg)
@@ -157,7 +166,8 @@ def load_data(cfg):
                 cfg.logger.info(('error fixed size: ' + key))
             except:
                 print('error fixed size: ' + key)
-    dataset['keys'] = keys      
+    dataset['keys'] = keys    
+    print('Number of keys:', len(keys))
 
     dataset['train'] = get_original_tasks(training_challenges, training_solutions)
 
@@ -176,6 +186,7 @@ def load_train(cfg):
     else:
         dataset = '_dataset_024.pkl'
     try:
+        pdb.set_trace()
         with open(cfg.save_path / (cfg.fname + dataset), 'rb') as file:
             data = pkl.load(file)    
     except:
@@ -870,7 +881,7 @@ class ARCModel(nn.Module):
 
         x =  self.embed_norm(color_embed.lerp(task_embed, self.task_scale()))
             
-        #print('a', x.shape)
+        print('a', x.shape)
         for att, ff in self.layers:
             x = att(x, mask=mask)
             x = ff(x)
@@ -916,10 +927,20 @@ def train_epoch(loader, valid_loader, model, optimizer, scheduler, scaler, devic
     accumulate = cfg.accumulate
     start_time = datetime.datetime.now()
     
+    # pdb.set_trace()
+    # print(len(load_iter))
     for i, batch in zip(bar, load_iter):
+        if i % 30 == 0:
+            curr_time = datetime.datetime.now()
+            elapsed_time = str(curr_time - start_time)
+            if cfg.local_rank == 0:
+                print(f'Iteration {i}, Time elapsed: {elapsed_time}')
         model.train()
         input_dict = batch_to_device(batch, device)
+        # pdb.set_trace()
         with autocast('cuda', dtype=torch.float16, enabled=cfg.fp16):
+            print(input_dict)
+            pdb.set_trace()
             _, loss, = model(input_dict, return_loss=True)
         if cfg.fp16:
             scaler.scale(loss / cfg.accumulate).backward() 
@@ -1253,6 +1274,7 @@ def get_model(cfg):
 def train_model(cfg, train_dataset, valid_dataset):    
     train_dataloader = get_data_loader(train_dataset, istrain=True, cfg=cfg)
     if valid_dataset is not None:
+        # pdb.set_trace()
         valid_dataloader = get_data_loader(valid_dataset, istrain=False, cfg=cfg)
     else:
         valid_dataloader = None
@@ -1275,10 +1297,12 @@ def train_model(cfg, train_dataset, valid_dataset):
     preds = None
     targets = None
     logits = None
+    # pdb.set_trace()
     for epoch in range(cfg.num_epochs):
         if cfg.ddp:
             torch.distributed.barrier()
 
+        # pdb.set_trace()
         train_epoch(train_dataloader, valid_dataloader, model, optimizer, scheduler, scaler, device, cfg)
         if cfg.ddp:
             torch.distributed.barrier()
@@ -1371,11 +1395,13 @@ def run(cfg):
         train_dataset = ARCDataset(train, cfg)
 
         if cfg.valid:
+            # pdb.set_trace()
             valid_dataset = ARCValidDataset(train, cfg)
         else:
             valid_dataset = None
         seed_torch(cfg.seed)
         
+        # pdb.set_trace()
         train_model(cfg, train_dataset, valid_dataset)
         
         if cfg.local_rank == 0:
@@ -1388,7 +1414,7 @@ def run(cfg):
 
 
 if __name__ == '__main__': 
-    import os
+    # import os
     #os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
     import sys
     import argparse
@@ -1409,28 +1435,87 @@ if __name__ == '__main__':
     cfg_module = importlib.import_module(cfg_name)
     cfg = copy(cfg_module.cfg)
 
-    unused_args = []
-    override_args = []
-    if len(other_args) > 1:
-        other_args = {k.replace('-',''):v for k, v in zip(other_args[1::2], other_args[2::2])}
-        for key in other_args:
-            if key in cfg.__dict__:
-                override_args.append((key, cfg.__dict__[key], other_args[key]))
-                #print(f'overwriting cfg.{key}: {cfg.__dict__[key]} -> {other_args[key]}')
-                cfg_type = type(cfg.__dict__[key])
-                if cfg_type == bool:
-                    cfg.__dict__[key] = other_args[key] == 'True'
-                elif cfg_type == type(None):
-                    cfg.__dict__[key] = other_args[key]
-                else:
-                    cfg.__dict__[key] = cfg_type(other_args[key])
-            else:
-                unused_args.append(key)
-    if cfg.local_rank == 0 and len(unused_args) > 0:
-        print('WARNING: unused args:', unused_args)
-    try:
-        cfg_module.finalize_cfg(cfg)
-    except:
-        pass
-    run(cfg)
+    # unused_args = []
+    # override_args = []
+    # if len(other_args) > 1:
+    #     other_args = {k.replace('-',''):v for k, v in zip(other_args[1::2], other_args[2::2])}
+    #     for key in other_args:
+    #         if key in cfg.__dict__:
+    #             override_args.append((key, cfg.__dict__[key], other_args[key]))
+    #             #print(f'overwriting cfg.{key}: {cfg.__dict__[key]} -> {other_args[key]}')
+    #             cfg_type = type(cfg.__dict__[key])
+    #             if cfg_type == bool:
+    #                 cfg.__dict__[key] = other_args[key] == 'True'
+    #             elif cfg_type == type(None):
+    #                 cfg.__dict__[key] = other_args[key]
+    #             else:
+    #                 cfg.__dict__[key] = cfg_type(other_args[key])
+    #         else:
+    #             unused_args.append(key)
+    # if cfg.local_rank == 0 and len(unused_args) > 0:
+    #     print('WARNING: unused args:', unused_args)
+    # try:
+    #     cfg_module.finalize_cfg(cfg)
+    # except:
+    #     pass
+    # run(cfg)
+    
+    # import pickle
+    # from pathlib import Path
+    # from cfg.cfg_053 import cfg
+
+    # Load saved model
+    model = ARCModel(cfg).to(cfg.device)
+    checkpoint = torch.load('../checkpoints/gen100/exp_26/gen100_0.pt')
+    
+#    ../checkpoints/gen100/exp_26/gen100_0.pt
+    print("Loaded")
+    # # model.load_state_dict(checkpoint['model'])
+    # # model.eval()
+    # # model = model.cuda()
+    print("Model is on cuda")
+
+    # Load a training task - ARC-AGI-2D-nGPT-Transformer/re-arc/gen100/tasks/0a938d79.json
+    
+    with open('../re-arc/gen100/tasks/0a938d79.json', 'r') as f:
+        train_tasks = json.load(f)
+    
+    # # Get first task as example
+    task = train_tasks[0]
+    # print("Loaded Task")
+    
+    # # Prepare input
+    input_dict = {
+        'input': torch.tensor(task['input']).unsqueeze(0),
+        'output': torch.tensor(task['output']).unsqueeze(0),
+        'mask': torch.ones_like(torch.tensor(task['input'])).unsqueeze(0),
+        'task': torch.tensor([0])
+    }
+    input_dict = {k: v.cuda() for k, v in input_dict.items()}
+
+    # Make prediction
+    with torch.no_grad():
+        logits = model(input_dict)
+        pred = logits.argmax(dim=-1)
+
+    
+    # Convert tensors to numpy arrays and remove batch dimension
+    input_array = input_dict['input'].squeeze(0).cpu().numpy()
+    output_array = input_dict['output'].squeeze(0).cpu().numpy()
+    pred_array = pred.squeeze(0).cpu().numpy()
+
+    print("\nInput array:")
+    print(input_array)
+    print("\nGround truth output:")
+    print(output_array)
+    print("\nModel prediction:")
+    print(pred_array)
+
+    # Calculate differences between prediction and ground truth
+    differences = (pred_array != output_array).sum()
+    print(f"\nNumber of differing pixels between prediction and ground truth: {differences}")
+    
+    print("Input shape:", input_dict['input'].shape)
+    print("Prediction shape:", pred.shape)
+    print("Ground truth shape:", input_dict['output'].shape)
 

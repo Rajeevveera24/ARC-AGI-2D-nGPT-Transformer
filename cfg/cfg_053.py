@@ -5,7 +5,7 @@ cfg = SimpleNamespace(**{})
 
 cfg.gpu = "0"
 cfg.seed = 0
-cfg.fname = 'gen10000'
+cfg.fname = 'gen100'
 
 cfg.data_path = Path("../re-arc/%s/tasks" % cfg.fname )
 cfg.input_path = Path("../input/arc-prize-2024/")
@@ -61,7 +61,7 @@ cfg.train_model = True
 cfg.logger_file = True
 cfg.verbose = True
 cfg.loss_length = 1000
-cfg.valid = 100
+cfg.valid = 0
 
 # model
 
@@ -79,8 +79,8 @@ cfg.tie_task_embed = False
 cfg.task_embed_size = 32
 cfg.qk_scale = True
 cfg.aug_sym = False
-cfg.aug_transpose = True
-cfg.aug_color = 8
+cfg.aug_transpose = False
+cfg.aug_color = 0
 
 # optimizer
 
